@@ -1,0 +1,6 @@
+{
+  "name": "LeanAI Coach",
+  "description": "Lose Weight Smarter with Your Personal AI Coach - Premium AI-powered Nutrition, Fitness & Weight Loss platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
