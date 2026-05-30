@@ -52,6 +52,9 @@ export default function LandingPage({
   // Controlled tools active tab
   const [activeToolTab, setActiveToolTab] = useState<'bmi' | 'calorie' | 'macro' | 'water' | 'fat' | 'goal'>('bmi');
 
+  // Interactive mockup dashboard state units
+  const [isLbs, setIsLbs] = useState(false);
+
   // Suggested prompt answers as part of the live conversational chat preview
   const [previewMessages, setPreviewMessages] = useState<Array<{ sender: 'user' | 'coach'; text: string }>>([
     {
@@ -382,59 +385,132 @@ export default function LandingPage({
               {/* Outer grid shadow overlays */}
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/10 to-teal-400/5 blur-3xl rounded-3xl -z-10" />
 
-              <div className="bg-slate-900 rounded-3xl p-3 sm:p-5 shadow-2xl border border-slate-850 overflow-hidden transform hover:scale-[1.01] transition-transform duration-500">
+              <div className="bg-slate-900 rounded-3xl p-3 sm:p-5 shadow-2xl border border-slate-800 overflow-hidden transform hover:scale-[1.01] transition-transform duration-500">
                 {/* Header title bar */}
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 text-slate-400 text-[10px] font-bold tracking-wider font-mono">
-                  <div className="flex items-center space-x-1.5">
-                    <span className="w-2.5 h-2.5 bg-red-400/80 rounded-full" />
-                    <span className="w-2.5 h-2.5 bg-yellow-400/80 rounded-full" />
-                    <span className="w-2.5 h-2.5 bg-green-400/80 rounded-full" />
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => alert("This mockup is a live preview of the LeanAI client panel! Use the yellow button to toggle lbs/kg units dynamically, or click the individual buttons below to access that specific view.")}
+                      className="w-3 h-3 bg-red-400 hover:bg-red-500 rounded-full cursor-pointer hover:scale-110 active:scale-95 transition-all border-none focus:outline-none"
+                      title="Mockup Info"
+                    />
+                    <button
+                      onClick={() => setIsLbs(!isLbs)}
+                      className="w-3 h-3 bg-yellow-400 hover:bg-yellow-500 rounded-full cursor-pointer hover:scale-110 active:scale-95 transition-all border-none focus:outline-none"
+                      title="Toggle units (kg / lbs)"
+                    />
+                    <button
+                      onClick={() => {
+                        if (user && onNavigateToDashboard) {
+                          onNavigateToDashboard('overview');
+                        } else {
+                          onStartFree();
+                        }
+                      }}
+                      className="w-3 h-3 bg-green-400 hover:bg-green-500 rounded-full cursor-pointer hover:scale-110 active:scale-95 transition-all border-none focus:outline-none"
+                      title="Open full dashboard applet"
+                    />
                   </div>
-                  <span className="text-slate-450 uppercase">LeanAI Client Dashboard Preview</span>
+                  <span className="text-slate-400 uppercase text-[9px] font-mono font-bold tracking-wider">
+                    LeanAI Live Client Preview ({isLbs ? 'LBS' : 'METRIC'})
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {/* Metric 1 */}
-                  <div className="bg-white/5 border border-white/5 rounded-2xl p-4 space-y-1">
-                    <span className="block text-[9px] text-slate-400 uppercase font-bold">Current Weight</span>
-                    <span className="block text-2xl font-mono font-bold text-white leading-none">72.4kg</span>
-                    <span className="block text-[8px] text-emerald-400 font-semibold">-0.3kg vs last month</span>
-                  </div>
+                  {/* Metric 1 Button */}
+                  <button
+                    onClick={() => {
+                      if (user && onNavigateToDashboard) {
+                        onNavigateToDashboard('weight');
+                      } else {
+                        onStartFree();
+                      }
+                    }}
+                    className="text-left bg-white/5 hover:bg-white/10 border border-white/5 hover:border-emerald-500/40 rounded-2xl p-4 space-y-1 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-emerald-500/40"
+                  >
+                    <span className="block text-[9px] text-slate-400 uppercase font-sans font-bold tracking-wider">Current Weight</span>
+                    <span className="block text-2xl font-mono font-bold text-white leading-none">
+                      {isLbs ? '159.6 lbs' : '72.4kg'}
+                    </span>
+                    <span className="block text-[8px] text-emerald-400 font-semibold">⚡ Click to view history</span>
+                  </button>
 
-                  {/* Metric 2 */}
-                  <div className="bg-white/5 border border-white/5 rounded-2xl p-4 space-y-1">
-                    <span className="block text-[9px] text-slate-400 uppercase font-bold">Goal Weight</span>
-                    <span className="block text-2xl font-mono font-bold text-white leading-none">65.0kg</span>
-                    <span className="block text-[8px] text-slate-500">7.4kg to go</span>
-                  </div>
+                  {/* Metric 2 Button */}
+                  <button
+                    onClick={() => {
+                      if (user && onNavigateToDashboard) {
+                        onNavigateToDashboard('weight');
+                      } else {
+                        onStartFree();
+                      }
+                    }}
+                    className="text-left bg-white/5 hover:bg-white/10 border border-white/5 hover:border-emerald-500/40 rounded-2xl p-4 space-y-1 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-emerald-500/40"
+                  >
+                    <span className="block text-[9px] text-slate-400 uppercase font-sans font-bold tracking-wider">Goal Target</span>
+                    <span className="block text-2xl font-mono font-bold text-white leading-none">
+                      {isLbs ? '143.3 lbs' : '65.0kg'}
+                    </span>
+                    <span className="block text-[8px] text-slate-400 font-semibold">⚡ Set goals</span>
+                  </button>
 
-                  {/* Metric 3 */}
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl space-y-1">
-                    <span className="block text-[9px] text-emerald-400 uppercase font-bold">Calories Remaining</span>
-                    <span className="block text-2xl font-mono font-bold text-emerald-400 leading-none">1,650</span>
-                    <span className="block text-[8px] text-slate-400">Target kcal</span>
-                  </div>
+                  {/* Metric 3 Button */}
+                  <button
+                    onClick={() => {
+                      if (user && onNavigateToDashboard) {
+                        onNavigateToDashboard('nutrition');
+                      } else {
+                        onStartFree();
+                      }
+                    }}
+                    className="text-left bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 hover:border-emerald-400/50 rounded-2xl p-4 space-y-1 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-emerald-500/40"
+                  >
+                    <span className="block text-[9px] text-emerald-400 uppercase font-sans font-bold tracking-wider">Calories Left</span>
+                    <span className="block text-2xl font-mono font-bold text-emerald-400 leading-none">1,650 kcal</span>
+                    <span className="block text-[8px] text-slate-300 font-semibold">⚡ Manage diet</span>
+                  </button>
                 </div>
 
                 {/* Graph chart visualizer */}
-                <div className="mt-4 bg-white/5 border border-white/10 rounded-2xl p-4 h-40 flex items-end justify-between px-6 pb-2">
+                <div className="mt-4 bg-white/5 border border-white/10 rounded-2xl p-4 h-40 flex items-end justify-between px-6 pb-2 relative group">
+                  <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-200 rounded-2xl">
+                    <button
+                      onClick={() => {
+                        if (user && onNavigateToDashboard) {
+                          onNavigateToDashboard('weight');
+                        } else {
+                          onStartFree();
+                        }
+                      }}
+                      className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-semibold shadow-md transition-all scale-95 group-hover:scale-100 cursor-pointer"
+                    >
+                      Maximize Analytics Chart
+                    </button>
+                  </div>
                   <div className="flex flex-col items-center flex-1 space-y-1">
-                    <span className="text-[8px] font-mono font-bold text-slate-400">74.2kg</span>
+                    <span className="text-[8px] font-mono font-bold text-slate-400">
+                      {isLbs ? '163.6 lbs' : '74.2kg'}
+                    </span>
                     <div className="w-3 bg-slate-700 h-28 rounded-t-sm" />
                     <span className="text-[8px] text-slate-500">May 1</span>
                   </div>
                   <div className="flex flex-col items-center flex-1 space-y-1">
-                    <span className="text-[8px] font-mono font-bold text-slate-400">73.6kg</span>
+                    <span className="text-[8px] font-mono font-bold text-slate-400">
+                      {isLbs ? '162.3 lbs' : '73.6kg'}
+                    </span>
                     <div className="w-3 bg-slate-700 h-24 rounded-t-sm" />
                     <span className="text-[8px] text-slate-500">May 8</span>
                   </div>
                   <div className="flex flex-col items-center flex-1 space-y-1">
-                    <span className="text-[8px] font-mono font-bold text-slate-400">72.9kg</span>
+                    <span className="text-[8px] font-mono font-bold text-slate-400">
+                      {isLbs ? '160.7 lbs' : '72.9kg'}
+                    </span>
                     <div className="w-3 bg-slate-700 h-16 rounded-t-sm" />
                     <span className="text-[8px] text-slate-500">May 15</span>
                   </div>
                   <div className="flex flex-col items-center flex-1 space-y-1">
-                    <span className="text-[8px] font-mono font-bold text-emerald-400">72.4kg</span>
+                    <span className="text-[8px] font-mono font-bold text-emerald-400">
+                      {isLbs ? '159.6 lbs' : '72.4kg'}
+                    </span>
                     <div className="w-3 bg-emerald-500 h-12 rounded-t-sm shadow-md" />
                     <span className="text-[8px] text-slate-500 font-bold">May 30</span>
                   </div>

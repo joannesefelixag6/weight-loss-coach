@@ -247,46 +247,46 @@ export default function UserDashboard({
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Sidebar Navigation */}
         <div className="lg:col-span-1 space-y-4">
-          <div className="bg-slate-900 text-white rounded-3xl p-6 shadow-xl border border-slate-800">
+          <div className="bg-slate-900 text-white rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-800">
             {/* User card header */}
-            <div className="flex items-center space-x-3 pb-5 border-b border-white/5">
-              <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-sans font-bold text-lg shadow-md shadow-emerald-500/20">
+            <div className="flex items-center space-x-3 pb-4 border-b border-white/5">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-sans font-bold text-base sm:text-lg shadow-md shadow-emerald-500/20">
                 {user.name.charAt(0).toUpperCase()}
               </div>
-              <div>
-                <h3 className="font-sans font-bold text-sm text-slate-100 truncate max-w-[130px]">
+              <div className="min-w-0">
+                <h3 className="font-sans font-bold text-xs sm:text-sm text-slate-100 truncate max-w-[130px]">
                   {user.name}
                 </h3>
-                <span className="inline-block bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-emerald-500/15">
+                <span className="inline-block bg-emerald-500/10 text-emerald-400 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-lg border border-emerald-500/15">
                   Pro Active Coaching
                 </span>
               </div>
             </div>
 
             {/* Sidebar list items */}
-            <div className="space-y-1.5 mt-5">
+            <div className="flex lg:flex-col overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 gap-2 lg:space-y-1.5 mt-4 lg:mt-5 scrollbar-none snap-x">
               {[
-                { id: 'overview', label: 'Overview Panel', icon: Activity },
-                { id: 'weight', label: 'Weight Tracking', icon: Scale },
-                { id: 'nutrition', label: 'Nutrition & Meals', icon: Utensils },
-                { id: 'workouts', label: 'Workout Protocols', icon: Dumbbell },
-                { id: 'habits', label: 'Habit & Hydration', icon: Droplet },
-                { id: 'coach', label: 'Consult AI Coach', icon: MessageSquare },
-                { id: 'settings', label: 'My Settings', icon: Settings },
+                { id: 'overview', label: 'Overview', icon: Activity },
+                { id: 'weight', label: 'Weight', icon: Scale },
+                { id: 'nutrition', label: 'Nutrition', icon: Utensils },
+                { id: 'workouts', label: 'Workouts', icon: Dumbbell },
+                { id: 'habits', label: 'Habits', icon: Droplet },
+                { id: 'coach', label: 'AI Coach', icon: MessageSquare },
+                { id: 'settings', label: 'Settings', icon: Settings },
               ].map((item) => {
                 const IconComp = item.icon;
                 return (
                   <button
                     key={item.id}
                     onClick={() => onTabChange(item.id as any)}
-                    className={`w-full flex items-center space-x-3 p-3 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+                    className={`flex-shrink-0 snap-start flex items-center space-x-2.5 p-2.5 sm:p-3 rounded-xl text-xs sm:text-sm font-semibold transition-all lg:w-full ${
                       activeTab === item.id
-                        ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/10'
+                        ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/15'
                         : 'text-slate-400 hover:text-white hover:bg-white/5'
                     }`}
                   >
-                    <IconComp className="w-4 h-4" />
-                    <span>{item.label}</span>
+                    <IconComp className="w-4 h-4 flex-shrink-0" />
+                    <span className="whitespace-nowrap">{item.label}</span>
                   </button>
                 );
               })}
@@ -566,10 +566,11 @@ export default function UserDashboard({
                 <div className="md:col-span-2 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
                   <div className="space-y-4 w-full">
                     <h3 className="font-sans font-bold text-base text-slate-800 border-b border-slate-50 pb-3">Weight History Trend</h3>
-                    <div className="h-44 flex items-end justify-between px-4 pb-4 bg-slate-50/70 border border-slate-100 rounded-2xl select-none">
-                      {weightLogs.map((log, index) => {
-                        const maxW = Math.max(...weightLogs.map((l) => l.weight)) + 2;
-                        const minW = Math.min(...weightLogs.map((l) => l.weight)) - 2;
+                    <div className="h-44 flex items-end justify-between px-2 sm:px-4 pb-4 bg-slate-50/70 border border-slate-100 rounded-2xl select-none">
+                      {weightLogs.slice(-6).map((log, index) => {
+                        const logsToScale = weightLogs.slice(-6);
+                        const maxW = Math.max(...logsToScale.map((l) => l.weight)) + 1;
+                        const minW = Math.min(...logsToScale.map((l) => l.weight)) - 1;
                         const range = maxW - minW || 1;
                         const heightPct = ((log.weight - minW) / range) * 80 + 10;
 
